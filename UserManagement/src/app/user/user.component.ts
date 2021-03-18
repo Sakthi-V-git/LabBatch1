@@ -11,9 +11,9 @@ import { AlertService } from '../services/alert.service.spec';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  form: FormGroup;
-  id: string;
-  isAddMode: boolean;
+  form!: FormGroup;
+  id!: string;
+  isAddMode!: boolean;
   loading = false;
   submitted = false;
   constructor(private formBuilder: FormBuilder,

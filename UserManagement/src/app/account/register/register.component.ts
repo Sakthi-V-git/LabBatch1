@@ -12,7 +12,7 @@ import { AlertService } from 'src/app/services/alert.service.spec';
 })
 export class RegisterComponent implements OnInit {
 
-  form: FormGroup;
+  form!: FormGroup;
   loading = false;
   submitted = false;
 

@@ -8,7 +8,7 @@ import { AccountService } from './services/account.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  user: User;
+  user!: User;
   constructor(private accountService: AccountService) {
     this.accountService.user.subscribe(x => this.user = x);
 }

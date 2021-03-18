@@ -13,8 +13,8 @@ export class AlertComponent implements OnInit {
   @Input() id = 'default-alert';
   @Input() fade = true;
   alerts: Alert[] = [];
-    alertSubscription: Subscription;
-    routeSubscription: Subscription;
+    alertSubscription!: Subscription;
+    routeSubscription!: Subscription;
   constructor(private router: Router, private alertService: AlertService) { }
 
   ngOnInit() {this.alertSubscription = this.alertService.onAlert(this.id)
@@ -25,7 +25,7 @@ export class AlertComponent implements OnInit {
             this.alerts = this.alerts.filter(x => x.keepAfterRouteChange);
 
             // remove 'keepAfterRouteChange' flag on the rest
-            this.alerts.forEach(x => delete x.keepAfterRouteChange);
+            this.alerts.forEach(x=> delete x.keepAfterRouteChange);
             return;
         }
 

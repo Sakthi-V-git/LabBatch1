@@ -8,7 +8,7 @@ import { AccountService } from 'src/app/services/account.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  users = null;
+  users!: any[];
   constructor(private accountService: AccountService) { }
 
   ngOnInit() {

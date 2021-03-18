@@ -11,7 +11,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 
 // array in local storage for registered users
-let users = JSON.parse(localStorage.getItem("users")) || [];
+let users = JSON.parse(localStorage.getItem("users")!) || [];
 @Injectable()
 export class FakebackendInterceptor implements HttpInterceptor {
 
@@ -52,7 +52,7 @@ export class FakebackendInterceptor implements HttpInterceptor {
     function authenticate() {
       const { username, password } = body;
       const user = users.find(
-        x => x.username === username && x.password === password
+        (        x: { username: any; password: any; }) => x.username === username && x.password === password
       );
       if (!user) return error("Username or password is incorrect");
       return ok({
@@ -67,11 +67,11 @@ export class FakebackendInterceptor implements HttpInterceptor {
     function register() {
       const user = body;
 
-      if (users.find(x => x.username === user.username)) {
+      if (users.find((x: { username: any; }) => x.username === user.username)) {
         return error('Username "' + user.username + '" is already taken');
       }
 
-      user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+      user.id = users.length ? Math.max(...users.map((x: { id: any; }) => x.id)) + 1 : 1;
       users.push(user);
       localStorage.setItem("users", JSON.stringify(users));
       return ok();
@@ -85,7 +85,7 @@ export class FakebackendInterceptor implements HttpInterceptor {
     function getUserById() {
       if (!isLoggedIn()) return unauthorized();
 
-      const user = users.find(x => x.id === idFromUrl());
+      const user = users.find((x: { id: number; }) => x.id === idFromUrl());
       return ok(user);
     }
 
@@ -93,7 +93,7 @@ export class FakebackendInterceptor implements HttpInterceptor {
       if (!isLoggedIn()) return unauthorized();
 
       let params = body;
-      let user = users.find(x => x.id === idFromUrl());
+      let user = users.find((x: { id: number; }) => x.id === idFromUrl());
 
       // only update password if entered
       if (!params.password) {
@@ -110,18 +110,18 @@ export class FakebackendInterceptor implements HttpInterceptor {
     function deleteUser() {
       if (!isLoggedIn()) return unauthorized();
 
-      users = users.filter(x => x.id !== idFromUrl());
+      users = users.filter((x: { id: number; }) => x.id !== idFromUrl());
       localStorage.setItem("users", JSON.stringify(users));
       return ok();
     }
 
     // helper functions
 
-    function ok(body?) {
+    function ok(body?: { id: any; username: any; firstName: any; lastName: any; token: string; } | undefined) {
       return of(new HttpResponse({ status: 200, body }));
     }
 
-    function error(message) {
+    function error(message: string) {
       return throwError({ error: { message } });
     }
 

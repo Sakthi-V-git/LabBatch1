@@ -11,7 +11,7 @@ import { AlertService } from 'src/app/services/alert.service.spec';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   loading = false;
   submitted = false;
 
